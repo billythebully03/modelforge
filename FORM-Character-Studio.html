@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#111214"><title>FORM — Character Studio</title>
+<style>
+:root{color-scheme:dark;--bg:#111214;--panel:#191b1f;--line:#30343c;--muted:#858d99;--text:#edf0f4;--soft:#b9bec7;--accent:#c8f078;--top:54px;--left:235px;--right:270px;--bottom:160px;font-family:Inter,-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",sans-serif}
+*{box-sizing:border-box}html,body{height:100%;margin:0;background:var(--bg);color:var(--text);overflow:hidden}button,input,select{font:inherit}button{color:inherit;border:0;cursor:pointer}#app{height:100dvh;display:grid;grid-template-rows:var(--top) 1fr;min-height:0}
+.topbar{display:flex;align-items:center;gap:13px;padding:0 16px;border-bottom:1px solid var(--line);background:#15171a;z-index:5}.brand{display:flex;align-items:center;gap:9px;min-width:175px}.brand-mark{width:24px;height:24px;border-radius:8px;background:var(--accent);display:grid;place-items:center;color:#171a13;font-weight:900}.brand-name{font-size:13px;font-weight:760;letter-spacing:.16em}.brand-sub{font-size:9px;color:var(--muted);letter-spacing:.1em;margin-left:3px}.top-divider{height:22px;width:1px;background:var(--line)}.file-name{font-size:11px;color:var(--soft);max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.spacer{flex:1}.btn{height:32px;padding:0 11px;border-radius:8px;background:#292d34;color:var(--soft);font-size:11px;font-weight:650;display:inline-flex;gap:7px;align-items:center;justify-content:center;white-space:nowrap}.btn:hover{background:#373c45;color:var(--text)}.btn.primary{background:var(--accent);color:#171a13}.btn.ghost{background:transparent;border:1px solid var(--line)}.btn.square{width:32px;padding:0;font-size:14px}.btn.active{background:#343a2d;color:var(--accent);box-shadow:inset 0 0 0 1px #586642}.btn:disabled{opacity:.35;cursor:not-allowed}.top-actions{display:flex;gap:7px;align-items:center}
+.workspace{display:grid;grid-template-columns:var(--left) minmax(0,1fr) var(--right);min-height:0;position:relative}.sidebar{background:var(--panel);min-height:0;display:flex;flex-direction:column;z-index:3}.leftbar{border-right:1px solid var(--line)}.rightbar{border-left:1px solid var(--line)}.section-head{height:42px;flex-shrink:0;padding:0 13px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);font-size:10px;font-weight:760;letter-spacing:.12em;text-transform:uppercase;color:#c6cbd3}.section-head small{font-size:10px;font-weight:500;letter-spacing:0;text-transform:none;color:var(--muted)}.side-scroll{overflow:auto;min-height:0;flex:1;padding:12px}.subhead{font-size:9px;text-transform:uppercase;letter-spacing:.13em;color:#78808c;font-weight:750;margin:4px 0 9px}.tree-row{height:31px;display:flex;align-items:center;gap:8px;padding:0 8px;border-radius:7px;font-size:11px;color:#bfc4cd;cursor:pointer;white-space:nowrap;overflow:hidden}.tree-row:hover{background:#252930}.tree-row.selected{background:#30382a;color:var(--accent)}.tree-icon{width:14px;text-align:center;color:#89929e;font-size:11px}.tree-label{overflow:hidden;text-overflow:ellipsis;flex:1}.tree-meta{font-size:9px;color:#717985}.empty-note{padding:13px 10px;border:1px dashed #363b44;border-radius:9px;color:#7f8793;font-size:11px;line-height:1.5}.tree-actions{display:flex;gap:6px;margin-top:11px}.tree-actions .btn{flex:1;height:29px;font-size:10px;padding:0 7px}.divider{height:1px;background:var(--line);margin:14px 0}.mode-tabs{display:flex;gap:4px;background:#121417;border:1px solid var(--line);border-radius:9px;padding:3px;margin-bottom:13px}.mode-tabs button{flex:1;height:27px;border-radius:6px;background:transparent;color:var(--muted);font-size:10px;font-weight:650}.mode-tabs button.active{background:#30352b;color:var(--accent)}
+.center{position:relative;min-width:0;min-height:0;display:grid;grid-template-rows:42px minmax(0,1fr) var(--bottom) 24px;background:#15171a}.viewport-toolbar{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 11px;border-bottom:1px solid var(--line);background:#191b1f}.toolbar-group{display:flex;align-items:center;gap:5px}.tool-label{font-size:9px;color:#777f8a;text-transform:uppercase;letter-spacing:.1em;margin-right:3px}.viewport-wrap{position:relative;min-height:0;overflow:hidden;background:radial-gradient(ellipse at 50% 42%,#292d32 0%,#1c1f23 42%,#15171a 100%)}#viewport{width:100%;height:100%;display:block;touch-action:none;outline:none}.drop-overlay{position:absolute;inset:14px;border:1px dashed transparent;border-radius:15px;pointer-events:none}.viewport-wrap.dragover .drop-overlay{border-color:var(--accent);background:#c8f0780b}.empty-state{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}.empty-card{width:min(340px,82%);text-align:center;padding:25px 21px;border:1px solid #363b42;background:#1b1e22dc;backdrop-filter:blur(16px);border-radius:16px;pointer-events:auto;box-shadow:0 20px 70px #0005}.empty-symbol{width:44px;height:44px;border:1px solid #444b53;border-radius:14px;margin:0 auto 14px;display:grid;place-items:center;font-size:22px;color:var(--accent)}.empty-card h2{font-size:16px;margin:0 0 7px;font-weight:680}.empty-card p{font-size:11px;color:#929aa5;line-height:1.55;margin:0 0 16px}.empty-card .btn{height:36px;padding:0 16px}.viewport-hint,.viewport-status{position:absolute;bottom:11px;color:#8b939e;font-size:9px;pointer-events:none;background:#17191dcc;padding:6px 8px;border-radius:6px}.viewport-hint{left:13px}.viewport-status{right:13px}
+.timeline{border-top:1px solid var(--line);background:#191b1f;display:grid;grid-template-rows:40px minmax(0,1fr);min-height:0}.timeline-head{display:flex;align-items:center;gap:7px;padding:0 11px;border-bottom:1px solid var(--line)}.timeline-title{font-size:10px;font-weight:750;letter-spacing:.1em;text-transform:uppercase;color:#c3c8d0}.timeline-head .spacer{flex:1}.timeline-body{padding:10px 13px 9px;display:flex;flex-direction:column;gap:8px;min-height:0}.timeline-row{display:flex;align-items:center;gap:10px}.time-display{font-variant-numeric:tabular-nums;color:#d9e0e8;font-size:11px;min-width:74px}.range{flex:1;accent-color:var(--accent);height:4px;min-width:0}.timeline-scale{display:flex;justify-content:space-between;margin-left:84px;color:#6f7782;font-size:9px}.keyframe-strip{height:19px;border:1px solid #31363e;border-radius:6px;background:repeating-linear-gradient(90deg,transparent 0,transparent calc(10% - 1px),#30343b calc(10% - 1px),#30343b 10%);position:relative;overflow:hidden}.key-dot{position:absolute;top:5px;width:7px;height:7px;background:var(--accent);transform:translateX(-50%) rotate(45deg);border-radius:1px}
+.field{margin:0 0 11px}.field label{display:flex;justify-content:space-between;align-items:center;font-size:10px;color:#a5acb7;margin-bottom:6px}.field label span{color:#6f7884;font-size:9px}.input{width:100%;height:31px;border:1px solid #343941;border-radius:7px;background:#131519;color:#e5e9ef;padding:0 9px;font-size:11px;min-width:0}.axis-fields{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}.axis-field{position:relative}.axis-field em{position:absolute;top:8px;left:8px;font-style:normal;font-size:9px;font-weight:800;pointer-events:none}.axis-field input{padding-left:20px}.axis-x em{color:#ee7777}.axis-y em{color:#a8db69}.axis-z em{color:#78a8ef}.inspector-note{font-size:10px;color:#7c8591;line-height:1.5}.toggle-line{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;color:#b6bdc7;font-size:10px}.switch{appearance:none;width:30px;height:17px;border-radius:20px;background:#41464e;position:relative;cursor:pointer}.switch:before{content:"";position:absolute;width:11px;height:11px;top:3px;left:3px;border-radius:50%;background:#dce1e8}.switch:checked{background:#829d50}.switch:checked:before{left:16px;background:#fff}.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.stat{background:#20242a;border:1px solid #2e333b;border-radius:8px;padding:9px}.stat strong{display:block;font-size:13px;color:#e6eaf0}.stat span{display:block;color:#7d8692;font-size:9px;margin-top:3px}.statusbar{height:24px;border-top:1px solid var(--line);background:#141619;display:flex;align-items:center;justify-content:space-between;padding:0 10px;color:#77808c;font-size:9px}.status-left{display:flex;gap:12px;min-width:0}.status-msg{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.mobile-nav{display:none}
+@media(max-width:1050px){:root{--left:205px;--right:240px;--bottom:150px}.brand{min-width:145px}.brand-sub{display:none}.topbar{gap:9px;padding:0 11px}}
+@media(max-width:760px){:root{--top:48px;--bottom:136px}.topbar{padding:0 9px;gap:8px}.brand{min-width:0}.brand-name{font-size:11px}.brand-mark{width:22px;height:22px}.top-divider,.file-name{display:none}.top-actions{gap:5px}.top-actions .btn{height:29px;padding:0 8px;font-size:10px}.workspace{grid-template-columns:1fr;grid-template-rows:1fr}.center{grid-row:1;grid-column:1;grid-template-rows:36px minmax(0,1fr) var(--bottom) 22px}.leftbar,.rightbar{position:absolute;top:0;bottom:0;width:min(82vw,310px);z-index:7;box-shadow:0 15px 40px #0008;transition:transform .22s ease}.leftbar{left:0;transform:translateX(-102%)}.rightbar{right:0;transform:translateX(102%)}.leftbar.open,.rightbar.open{transform:translateX(0)}.mobile-nav{display:flex}.mobile-nav .btn{height:27px;width:29px;padding:0}.tool-label{display:none}.viewport-toolbar{padding:0 7px}.viewport-toolbar .btn{height:27px;width:28px;padding:0}.empty-card{padding:20px 16px}.empty-card h2{font-size:14px}.empty-card p{font-size:10px}.timeline-head{padding:0 8px}.timeline-body{padding:7px 9px}.timeline-title{font-size:9px}.timeline-scale{margin-left:66px}.time-display{min-width:57px;font-size:10px}.statusbar{padding:0 7px}.status-right{display:none}}
+@media(max-width:440px) and (orientation:portrait){:root{--bottom:128px}.viewport-hint{display:none}.timeline-body{gap:5px}.timeline-head .btn{height:25px;padding:0 7px;font-size:9px}.empty-card{width:88%}}
+@media(max-height:520px) and (orientation:landscape) and (max-width:950px){:root{--top:42px;--bottom:110px}.workspace{grid-template-columns:185px minmax(0,1fr) 215px}.leftbar,.rightbar{position:relative;top:auto;bottom:auto;width:auto;transform:none;box-shadow:none}.leftbar{grid-column:1;grid-row:1}.rightbar{grid-column:3;grid-row:1}.center{grid-column:2;grid-row:1;grid-template-rows:32px minmax(0,1fr) var(--bottom)}.mobile-nav{display:none}.timeline-body{padding:5px 9px;gap:4px}.statusbar{display:none}}
+</style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.187.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.187.0/examples/jsm/"}}</script>
+</head>
+<body><div id="app">
+<header class="topbar"><div class="brand"><div class="brand-mark">F</div><div><div class="brand-name">FORM <span class="brand-sub">CHARACTER STUDIO</span></div></div></div><div class="top-divider"></div><div class="file-name" id="fileName">Untitled scene</div><div class="spacer"></div><div class="top-actions"><button class="btn ghost" id="openBtn">＋ Import</button><button class="btn ghost" id="saveSetupBtn" disabled>Save setup</button><button class="btn primary" id="exportBtn" disabled>Export GLB ↗</button></div><input id="fileInput" type="file" accept=".glb,.gltf,.fbx,.obj,.mtl,.bin,.png,.jpg,.jpeg,.webp,.tga" multiple hidden></header>
+<main class="workspace">
+<aside class="sidebar leftbar" id="leftbar"><div class="section-head"><span>Scene</span><small id="sceneCount">0 objects</small></div><div class="side-scroll"><div class="mode-tabs"><button class="active" data-side-tab="hierarchy">Hierarchy</button><button data-side-tab="animations">Animations</button></div><section id="hierarchyPanel"><div class="subhead">Model</div><div id="modelTree"><div class="empty-note">Import a model to see its scene structure.</div></div><div class="divider"></div><div class="subhead">Attachments <span id="attachmentCount">· 0</span></div><div id="attachmentList"><div class="empty-note">Named points for sockets, camera targets or interaction anchors.</div></div><div class="tree-actions"><button class="btn" id="addAttachmentBtn" disabled>＋ Attachment</button><button class="btn" id="deleteAttachmentBtn" disabled>Delete</button></div></section><section id="animationsPanel" hidden><div class="subhead">Clips</div><div id="animationList"><div class="empty-note">Imported and created animations appear here.</div></div><div class="tree-actions"><button class="btn" id="newAnimationBtn" disabled>＋ New animation</button></div><div class="divider"></div><div class="subhead">Playback</div><div class="toggle-line"><span>Loop playback</span><input class="switch" type="checkbox" id="loopToggle" checked></div><div class="toggle-line"><span>Show skeleton</span><input class="switch" type="checkbox" id="skeletonToggle" checked></div></section></div></aside>
+<section class="center"><div class="viewport-toolbar"><div class="toolbar-group mobile-nav"><button class="btn square" id="leftToggle">☷</button></div><div class="toolbar-group"><span class="tool-label">Transform</span><button class="btn square active" data-transform="translate" title="Move (G)">↔</button><button class="btn square" data-transform="rotate" title="Rotate (R)">⟳</button><button class="btn square" data-transform="scale" title="Scale (S)">⤢</button><button class="btn square" id="spaceToggle" title="Local / world">L</button></div><div class="toolbar-group"><span class="tool-label">View</span><button class="btn square" id="frameBtn" title="Frame model">⌗</button><button class="btn square" id="gridToggle" title="Toggle grid">▦</button><button class="btn square" id="boneToggle" title="Toggle bones">◎</button></div><div class="toolbar-group mobile-nav"><button class="btn square" id="rightToggle">☰</button></div></div>
+<div class="viewport-wrap" id="viewportWrap"><canvas id="viewport"></canvas><div class="drop-overlay"></div><div class="empty-state" id="emptyState"><div class="empty-card"><div class="empty-symbol">◇</div><h2>Your model, ready to move.</h2><p>Drop a GLB, glTF, FBX or OBJ file here. Include sidecar files such as textures, .bin or .mtl in the same selection.</p><button class="btn primary" id="emptyImport">Choose model ↗</button></div></div><div class="viewport-hint">Drag · Orbit &nbsp; Shift + drag · Pan &nbsp; Scroll · Zoom</div><div class="viewport-status" id="viewportStatus">Perspective · 3D</div></div>
+<section class="timeline"><div class="timeline-head"><span class="timeline-title">Timeline</span><button class="btn square" id="playBtn" disabled title="Play">▶</button><button class="btn square" id="stopBtn" disabled title="Stop">■</button><button class="btn" id="keyframeBtn" disabled>＋ Keyframe</button><div class="spacer"></div><span class="tool-label">FPS</span><select class="input" id="fpsSelect" style="width:60px;height:26px;padding:0 5px"><option>24</option><option selected>30</option><option>60</option></select></div><div class="timeline-body"><div class="timeline-row"><span class="time-display" id="timeDisplay">00:00.00</span><input class="range" id="timeRange" type="range" min="0" max="2" step="0.01" value="0" disabled></div><div class="keyframe-strip" id="keyframeStrip"></div><div class="timeline-scale"><span>0s</span><span id="midTime">1s</span><span id="endTime">2s</span></div></div></section><div class="statusbar"><div class="status-left"><span class="status-msg" id="statusMsg">Ready · Files stay in your browser</span><span id="modelMeta">No model loaded</span></div><span class="status-right">FORM 0.1 · THREE.JS 0.187</span></div></section>
+<aside class="sidebar rightbar" id="rightbar"><div class="section-head"><span>Inspector</span><small id="selectionType">Nothing selected</small></div><div class="side-scroll" id="inspector"><div class="empty-note">Select a bone or attachment to edit its transform.</div></div></aside>
+</main></div>
+
+<script type="module">
+import * as THREE from 'three';
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+import {TransformControls} from 'three/addons/controls/TransformControls.js';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {FBXLoader} from 'three/addons/loaders/FBXLoader.js';
+import {OBJLoader} from 'three/addons/loaders/OBJLoader.js';
+import {MTLLoader} from 'three/addons/loaders/MTLLoader.js';
+import {GLTFExporter} from 'three/addons/exporters/GLTFExporter.js';
+
+const $=id=>document.getElementById(id), canvas=$('viewport'), wrap=$('viewportWrap');
+const scene=new THREE.Scene(); scene.background=new THREE.Color(0x17191d);
+const camera=new THREE.PerspectiveCamera(42,1,.01,10000); camera.position.set(3.4,2.5,4.8);
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});
+renderer.setPixelRatio(Math.min(devicePixelRatio||1,2)); renderer.outputColorSpace=THREE.SRGBColorSpace; renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.05;
+const orbit=new OrbitControls(camera,renderer.domElement); orbit.enableDamping=true; orbit.dampingFactor=.075; orbit.target.set(0,1,0);
+const gizmo=new TransformControls(camera,renderer.domElement); scene.add(gizmo.getHelper()); gizmo.setMode('translate'); gizmo.setSpace('local'); gizmo.setSize(.8);
+gizmo.addEventListener('dragging-changed',e=>orbit.enabled=!e.value);
+gizmo.addEventListener('objectChange',()=>{updateInspectorValues();updateMarkers();});
+scene.add(new THREE.HemisphereLight(0xdfe9ff,0x47413b,2.05));
+const keyLight=new THREE.DirectionalLight(0xfff1da,2.6); keyLight.position.set(4,7,5); scene.add(keyLight);
+const fillLight=new THREE.DirectionalLight(0x8aa8df,1.05); fillLight.position.set(-5,3,-4); scene.add(fillLight);
+const grid=new THREE.GridHelper(20,40,0x555b65,0x30353d); grid.position.y=-.001; scene.add(grid);
+let modelRoot=null, sourceAnimations=[], customAnimations=[], mixer=null, activeAction=null, activeClip=null, activeCustom=null;
+let bones=[], skeletonHelper=null, markerGroup=null, boneMarkers=[], selectedBone=null, selectedAttachment=null, attachments=[];
+let objectURLs=[], currentDuration=2, currentTime=0, isPlaying=false, showSkeleton=true, space='local';
+const clock=new THREE.Clock(), raycaster=new THREE.Raycaster(), pointer=new THREE.Vector2(), markerGeometry=new THREE.SphereGeometry(1,10,8);
+
+function status(s,error=false){$('statusMsg').textContent=s;$('statusMsg').style.color=error?'#ff8989':'';}
+function fmtTime(v){return `${String(Math.floor(v/60)).padStart(2,'0')}:${(v%60).toFixed(2).padStart(5,'0')}`;}
+function fmtBytes(n){return n<1024?`${n} B`:n<1048576?`${(n/1024).toFixed(1)} KB`:`${(n/1048576).toFixed(2)} MB`;}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function safe(s){return String(s||'model').replace(/[^a-z0-9-_]+/gi,'-').replace(/^-|-$/g,'').toLowerCase()||'model';}
+function download(blob,name){const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1500);}
+function stopPlayback(){isPlaying=false;if(activeAction)activeAction.paused=true;$('playBtn').textContent='▶';}
+function clearModel(){
+  stopPlayback();gizmo.detach();
+  if(modelRoot){scene.remove(modelRoot);modelRoot.traverse(o=>{o.geometry?.dispose?.();if(o.material){for(const m of(Array.isArray(o.material)?o.material:[o.material])){for(const k in m)if(m[k]?.isTexture)m[k].dispose();m.dispose();}}});}
+  if(skeletonHelper){scene.remove(skeletonHelper);skeletonHelper.dispose?.();}
+  if(markerGroup)scene.remove(markerGroup);
+  objectURLs.forEach(URL.revokeObjectURL);objectURLs=[];
+  modelRoot=null;sourceAnimations=[];customAnimations=[];mixer=null;activeAction=null;activeClip=null;activeCustom=null;bones=[];skeletonHelper=null;markerGroup=null;boneMarkers=[];attachments=[];selectedBone=null;selectedAttachment=null;
+}
+function fileManager(files){
+  const manager=new THREE.LoadingManager(),map=new Map();
+  for(const f of files){const u=URL.createObjectURL(f);objectURLs.push(u);let k=f.name.toLowerCase();map.set(k,u);map.set(decodeURIComponent(k),u);}
+  manager.setURLModifier(url=>{if(url.startsWith('data:')||url.startsWith('blob:'))return url;let k;try{k=decodeURIComponent(url.split(/[?#]/)[0].split('/').pop()).toLowerCase();}catch{k=url.split('/').pop().toLowerCase();}return map.get(k)||url;});
+  return manager;
+}
+async function importFiles(list){
+  const files=[...list],main=files.find(f=>/\.(glb|gltf|fbx|obj)$/i.test(f.name));
+  if(!main){status('Choose a .glb, .gltf, .fbx or .obj model file.',true);return;}
+  $('openBtn').disabled=true;$('exportBtn').disabled=true;status('Reading model…');clearModel();
+  try{
+    const manager=fileManager(files),ext=main.name.split('.').pop().toLowerCase();let root,clips=[];
+    if(ext==='glb'||ext==='gltf'){
+      const loader=new GLTFLoader(manager),gltf=await loader.parseAsync(await main.arrayBuffer(),'');root=gltf.scene;clips=gltf.animations||[];
+    }else if(ext==='fbx'){
+      const loader=new FBXLoader(manager);root=loader.parse(await main.arrayBuffer(),'');clips=root.animations||[];
+    }else{
+      const loader=new OBJLoader(manager),mtl=files.find(f=>f.name.toLowerCase().endsWith('.mtl'));
+      if(mtl){const materials=new MTLLoader(manager).parse(await mtl.text(),'');materials.preload();loader.setMaterials(materials);}
+      root=loader.parse(await main.text());
+    }
+    if(!root)throw new Error('No readable scene was found in this file.');
+    root.name=main.name.replace(/\.[^.]+$/,'')||'Model';modelRoot=root;sourceAnimations=clips;scene.add(root);
+    root.traverse(o=>{if(o.isMesh){o.castShadow=false;o.receiveShadow=false;for(const m of(Array.isArray(o.material)?o.material:[o.material]))if(m.map)m.map.colorSpace=THREE.SRGBColorSpace;}});
+    buildSkeleton();frameModel();$('emptyState').hidden=true;$('fileName').textContent=main.name;
+    $('exportBtn').disabled=false;$('saveSetupBtn').disabled=false;$('addAttachmentBtn').disabled=false;$('newAnimationBtn').disabled=!bones.length;$('keyframeBtn').disabled=!bones.length;$('playBtn').disabled=!clips.length;$('stopBtn').disabled=!clips.length;$('timeRange').disabled=!clips.length;
+    renderTree();renderAttachments();renderAnimations();updateStats(main.size);
+    if(clips.length)selectAnimation(clips[0],'source');else{setDuration(2);$('playBtn').disabled=true;$('stopBtn').disabled=true;}
+    status(`${main.name} · ${bones.length} bones · ${clips.length} imported clips${ext==='obj'&&!files.some(f=>f.name.toLowerCase().endsWith('.mtl'))?' · no MTL selected':''}`);
+  }catch(err){console.error(err);clearModel();$('emptyState').hidden=false;$('fileName').textContent='Untitled scene';status(`Import failed: ${err.message||err}`,true);}
+  finally{$('openBtn').disabled=false;$('exportBtn').disabled=!modelRoot;}
+}
+function buildSkeleton(){
+  bones=[];modelRoot.traverse(o=>{if(o.isBone)bones.push(o);});
+  if(skeletonHelper){scene.remove(skeletonHelper);skeletonHelper.dispose?.();}
+  if(markerGroup)scene.remove(markerGroup);
+  if(!bones.length){skeletonHelper=null;markerGroup=null;toggleSkeleton(showSkeleton);return;}
+  skeletonHelper=new THREE.SkeletonHelper(modelRoot);skeletonHelper.material.color.set(0xc8f078);skeletonHelper.material.depthTest=false;skeletonHelper.material.transparent=true;skeletonHelper.material.opacity=.88;skeletonHelper.renderOrder=5;scene.add(skeletonHelper);
+  markerGroup=new THREE.Group();scene.add(markerGroup);const box=new THREE.Box3().setFromObject(modelRoot),radius=Math.max(box.getSize(new THREE.Vector3()).length()*.009,.012);
+  boneMarkers=bones.map(b=>{const m=new THREE.Mesh(markerGeometry,new THREE.MeshBasicMaterial({color:0x91a2b0,transparent:true,opacity:.16,depthTest:false,depthWrite:false}));m.scale.setScalar(radius);m.renderOrder=6;m.userData.bone=b;markerGroup.add(m);return m;});
+  toggleSkeleton(showSkeleton);updateMarkers();
+}
+function updateMarkers(){
+  if(!markerGroup||!modelRoot)return;modelRoot.updateMatrixWorld(true);const box=new THREE.Box3().setFromObject(modelRoot),r=Math.max(box.getSize(new THREE.Vector3()).length()*.009,.012);
+  for(const m of boneMarkers){m.userData.bone.getWorldPosition(m.position);const active=m.userData.bone===selectedBone;m.material.color.set(active?0xc8f078:0x91a2b0);m.material.opacity=active?.82:.16;m.scale.setScalar(r*(active?1.45:1));}
+}
+function toggleSkeleton(v){showSkeleton=v;if(skeletonHelper)skeletonHelper.visible=v;if(markerGroup)markerGroup.visible=v;$('skeletonToggle').checked=v;$('boneToggle').classList.toggle('active',v);}
+function frameModel(){
+  if(!modelRoot)return;modelRoot.updateMatrixWorld(true);const box=new THREE.Box3().setFromObject(modelRoot);if(box.isEmpty())return;
+  const center=box.getCenter(new THREE.Vector3()),size=box.getSize(new THREE.Vector3()),max=Math.max(size.x,size.y,size.z)||1,dist=max/(2*Math.tan(THREE.MathUtils.degToRad(camera.fov/2)))*1.55;
+  orbit.target.copy(center);camera.position.copy(center).add(new THREE.Vector3(dist*.72,dist*.52,dist));camera.near=Math.max(max/1000,.001);camera.far=Math.max(max*100,1000);camera.updateProjectionMatrix();orbit.update();
+}
+function updateStats(size){let vertices=0,meshes=0;modelRoot.traverse(o=>{if(o.isMesh){meshes++;vertices+=o.geometry?.attributes?.position?.count||0;}});$('sceneCount').textContent=`${meshes} meshes`;$('modelMeta').textContent=`${fmtBytes(size)} · ${vertices.toLocaleString()} vertices · ${bones.length} bones`;$('viewportStatus').textContent=`${bones.length?'Rigged':'Static'} · ${meshes} meshes`;}
+
+function boneDepth(b){let n=0,p=b.parent;while(p&&p!==modelRoot){if(p.isBone)n++;p=p.parent;}return n;}
+function renderTree(){
+  const el=$('modelTree');if(!modelRoot){el.innerHTML='<div class="empty-note">Import a model to see its scene structure.</div>';return;}
+  let html=`<div class="tree-row" data-root><span class="tree-icon">◈</span><span class="tree-label">${esc(modelRoot.name)}</span><span class="tree-meta">ROOT</span></div>`;
+  if(!bones.length)html+='<div class="empty-note">No skeleton found in this model.</div>';
+  else html+=bones.map((b,i)=>`<div class="tree-row ${b===selectedBone?'selected':''}" data-bone="${i}" style="padding-left:${9+boneDepth(b)*12}px"><span class="tree-icon">⌁</span><span class="tree-label">${esc(b.name||`Bone ${i+1}`)}</span></div>`).join('');
+  el.innerHTML=html;el.querySelectorAll('[data-bone]').forEach(r=>r.onclick=()=>selectBone(bones[+r.dataset.bone]));
+  el.querySelector('[data-root]')?.addEventListener('click',()=>{selectedBone=null;selectedAttachment=null;gizmo.detach();renderTree();renderInspector();renderAttachments();});
+}
+function renderAttachments(){
+  const el=$('attachmentList');$('attachmentCount').textContent=`· ${attachments.length}`;$('deleteAttachmentBtn').disabled=!selectedAttachment;
+  if(!attachments.length){el.innerHTML='<div class="empty-note">Named points for sockets, camera targets or interaction anchors.</div>';return;}
+  el.innerHTML=attachments.map((a,i)=>`<div class="tree-row ${a===selectedAttachment?'selected':''}" data-att="${i}"><span class="tree-icon">⌖</span><span class="tree-label">${esc(a.userData.label||a.name)}</span><span class="tree-meta">${esc(a.parent?.name||'root')}</span></div>`).join('');
+  el.querySelectorAll('[data-att]').forEach(r=>r.onclick=()=>selectAttachment(attachments[+r.dataset.att]));
+}
+function addAttachment(){
+  if(!modelRoot)return;const group=new THREE.Group(),id=`att_${Math.random().toString(36).slice(2,8)}`;
+  group.name=id;group.userData={type:'attachment',id,label:`socket_${String(attachments.length+1).padStart(2,'0')}`};
+  const axes=new THREE.AxesHelper(.22);axes.material.depthTest=false;axes.renderOrder=8;group.add(axes);group.editorHelper=axes;
+  (selectedBone||modelRoot).add(group);attachments.push(group);selectAttachment(group);status(`Created ${group.userData.label}.`);
+}
+function selectAttachment(a){selectedAttachment=a;selectedBone=null;gizmo.attach(a);gizmo.setSpace('local');renderTree();renderAttachments();renderInspector();}
+function removeAttachment(){if(!selectedAttachment)return;const a=selectedAttachment;a.parent?.remove(a);attachments=attachments.filter(x=>x!==a);selectedAttachment=null;gizmo.detach();renderAttachments();renderInspector();status('Attachment removed.');}
+function selectBone(b){selectedBone=b;selectedAttachment=null;gizmo.attach(b);gizmo.setSpace('local');renderTree();renderAttachments();renderInspector();updateMarkers();}
+function selectedObject(){return selectedAttachment||selectedBone;}
+function axisInputs(kind,v){return ['x','y','z'].map(a=>`<div class="axis-field axis-${a}"><em>${a.toUpperCase()}</em><input class="input" id="${kind}_${a}" type="number" step="${kind==='rot'?1:.01}" value="${Number(v[a]).toFixed(3)}"></div>`).join('');}
+function renderInspector(){
+  const obj=selectedObject(),el=$('inspector');
+  if(!obj){
+    $('selectionType').textContent='Nothing selected';
+    el.innerHTML=modelRoot?`<div class="subhead">Scene information</div><div class="stats-grid"><div class="stat"><strong>${bones.length}</strong><span>Bones</span></div><div class="stat"><strong>${attachments.length}</strong><span>Attachments</span></div><div class="stat"><strong>${sourceAnimations.length+customAnimations.length}</strong><span>Animations</span></div><div class="stat"><strong>Ready</strong><span>Model status</span></div></div><div class="divider"></div><div class="field"><label>Export texture limit <span>pixels</span></label><select id="textureSize" class="input"><option value="512">512</option><option value="1024">1024</option><option value="2048" selected>2048</option><option value="4096">4096</option><option value="0">Original size</option></select></div><div class="inspector-note">Select a bone or attachment to edit its local transform. GLB is the primary export format.</div>`:'<div class="empty-note">Select a bone or attachment to edit its transform.</div>';
+    return;
+  }
+  const att=!!selectedAttachment,p=obj.position,r=obj.rotation,s=obj.scale;
+  $('selectionType').textContent=att?'Attachment':'Bone';
+  el.innerHTML=`<div class="subhead">${att?'Attachment':'Bone'} properties</div>
+    ${att?`<div class="field"><label>Name</label><input class="input" id="objectName" maxlength="48" value="${esc(obj.userData.label||obj.name)}"></div>
+    <div class="field"><label>Parent bone</label><select id="parentBone" class="input"><option value="root">Model root</option>${bones.map((b,i)=>`<option value="${i}" ${obj.parent===b?'selected':''}>${esc(b.name||`Bone ${i+1}`)}</option>`).join('')}</select></div>`:`<div class="field"><label>Bone name</label><input class="input" value="${esc(obj.name||'Bone')}" disabled></div><div class="toggle-line"><span>Show skeleton</span><input class="switch" type="checkbox" id="inspectorBoneToggle" ${showSkeleton?'checked':''}></div>`}
+    <div class="divider"></div><div class="field"><label>Position <span>Local units</span></label><div class="axis-fields">${axisInputs('pos',p)}</div></div>
+    <div class="field"><label>Rotation <span>Degrees</span></label><div class="axis-fields">${axisInputs('rot',{x:THREE.MathUtils.radToDeg(r.x),y:THREE.MathUtils.radToDeg(r.y),z:THREE.MathUtils.radToDeg(r.z)})}</div></div>
+    <div class="field"><label>Scale</label><div class="axis-fields">${axisInputs('scale',s)}</div></div><div class="divider"></div><div class="inspector-note">Transforms are relative to the parent. Use the viewport gizmo for direct manipulation.</div>`;
+  for(const kind of ['pos','rot','scale'])for(const ax of ['x','y','z'])$(`${kind}_${ax}`).addEventListener('change',e=>{
+    const n=Number(e.target.value);if(!Number.isFinite(n))return;
+    if(kind==='pos')obj.position[ax]=n;else if(kind==='rot')obj.rotation[ax]=THREE.MathUtils.degToRad(n);else obj.scale[ax]=n;
+    obj.updateMatrixWorld(true);updateMarkers();
+  });
+  if(att){
+    $('objectName').addEventListener('input',e=>{obj.userData.label=e.target.value;renderAttachments();});
+    $('parentBone').addEventListener('change',e=>{const next=e.target.value==='root'?modelRoot:bones[+e.target.value];next.attach(obj);renderAttachments();});
+  }else $('inspectorBoneToggle').addEventListener('change',e=>toggleSkeleton(e.target.checked));
+}
+function updateInspectorValues(){
+  const o=selectedObject();if(!o)return;
+  const vals={pos:o.position,rot:{x:THREE.MathUtils.radToDeg(o.rotation.x),y:THREE.MathUtils.radToDeg(o.rotation.y),z:THREE.MathUtils.radToDeg(o.rotation.z)},scale:o.scale};
+  for(const [k,v] of Object.entries(vals))for(const a of ['x','y','z']){const el=$(`${k}_${a}`);if(el&&document.activeElement!==el)el.value=Number(v[a]).toFixed(3);}
+}
+function sideTab(which){document.querySelectorAll('[data-side-tab]').forEach(b=>b.classList.toggle('active',b.dataset.sideTab===which));$('hierarchyPanel').hidden=which!=='hierarchy';$('animationsPanel').hidden=which!=='animations';}
+function makeClip(data){
+  const frames=[...data.frames].sort((a,b)=>a.time-b.time);if(!frames.length)return new THREE.AnimationClip(data.name||'Animation',1,[]);
+  const duration=Math.max(frames.at(-1).time,2),tracks=[];
+  for(const bone of bones)for(const prop of ['position','quaternion','scale']){
+    const times=[],values=[];
+    for(const frame of frames){const pose=frame.poses[bone.uuid];if(pose){times.push(frame.time);values.push(...pose[prop]);}}
+    if(times.length===1){times.push(Math.max(duration,times[0]+.001));values.push(...values.slice(0,prop==='quaternion'?4:3));}
+    if(times.length){const path=`${bone.uuid}.${prop}`;tracks.push(prop==='quaternion'?new THREE.QuaternionKeyframeTrack(path,times,values):new THREE.VectorKeyframeTrack(path,times,values));}
+  }
+  return new THREE.AnimationClip(data.name||'New animation',duration,tracks);
+}
+function renderAnimations(){
+  const el=$('animationList'),all=[...sourceAnimations.map((clip,i)=>({clip,type:'source',i})),...customAnimations.map((data,i)=>({clip:makeClip(data),type:'custom',i,data}))];
+  if(!all.length){el.innerHTML='<div class="empty-note">No clips found. Create one to start posing your model.</div>';return;}
+  el.innerHTML=all.map((x,i)=>`<div class="tree-row ${activeClip?.name===x.clip.name?'selected':''}" data-anim="${i}"><span class="tree-icon">▷</span><span class="tree-label">${esc(x.clip.name||`Animation ${i+1}`)}</span><span class="tree-meta">${x.type==='custom'?'EDIT':'SRC'}</span></div>`).join('');
+  el.querySelectorAll('[data-anim]').forEach(r=>r.onclick=()=>{const x=all[+r.dataset.anim];selectAnimation(x.type==='custom'?x.data:x.clip,x.type);});
+}
+function setDuration(d){currentDuration=Math.max(Number(d)||2,.1);$('timeRange').max=currentDuration;$('timeRange').value=Math.min(currentTime,currentDuration);$('midTime').textContent=`${(currentDuration/2).toFixed(1)}s`;$('endTime').textContent=`${currentDuration.toFixed(1)}s`;}
+function selectAnimation(clipOrData,type='source'){
+  stopPlayback();activeCustom=type==='custom'?clipOrData:null;activeClip=type==='custom'?makeClip(clipOrData):clipOrData;
+  mixer=new THREE.AnimationMixer(modelRoot);activeAction=mixer.clipAction(activeClip);activeAction.play();activeAction.paused=true;
+  currentTime=0;setDuration(activeClip.duration||2);$('timeRange').disabled=false;$('playBtn').disabled=false;$('stopBtn').disabled=false;
+  mixer.setTime(0);$('timeDisplay').textContent=fmtTime(0);renderKeyframes(activeCustom);renderAnimations();sideTab('animations');
+}
+function renderKeyframes(data){const el=$('keyframeStrip');el.innerHTML='';if(!data)return;for(const f of data.frames){const dot=document.createElement('i');dot.className='key-dot';dot.style.left=`${Math.min(100,f.time/currentDuration*100)}%`;el.appendChild(dot);}}
+function scrub(t){
+  const fps=Number($('fpsSelect').value)||30;currentTime=Math.max(0,Math.min(Math.round(Number(t)*fps)/fps,currentDuration));$('timeRange').value=currentTime;$('timeDisplay').textContent=fmtTime(currentTime);
+  if(mixer&&activeAction){if(isPlaying)stopPlayback();activeAction.reset();activeAction.play();activeAction.paused=true;activeAction.setLoop(THREE.LoopOnce,1);mixer.setTime(currentTime);}
+}
+function playPause(){
+  if(!activeAction)return;if(isPlaying){stopPlayback();return;}
+  if(currentTime>=currentDuration-.005){currentTime=0;mixer.setTime(0);}
+  activeAction.paused=false;activeAction.setLoop($('loopToggle').checked?THREE.LoopRepeat:THREE.LoopOnce,$('loopToggle').checked?Infinity:1);activeAction.clampWhenFinished=!$('loopToggle').checked;isPlaying=true;$('playBtn').textContent='Ⅱ';
+}
+function capturePose(t){const poses={};for(const b of bones)poses[b.uuid]={position:b.position.toArray(),quaternion:b.quaternion.toArray(),scale:b.scale.toArray()};return {time:Number(t),poses};}
+function newAnimation(){
+  if(!bones.length){status('A skeletal model is needed to create bone animation.',true);return;}
+  stopPlayback();const data={name:`Animation ${customAnimations.length+1}`,frames:[capturePose(0)]};customAnimations.push(data);$('keyframeBtn').disabled=false;selectAnimation(data,'custom');renderAnimations();status(`Created ${data.name}. Pose the bones and add keyframes.`);
+}
+function addKeyframe(){
+  if(!activeCustom){status('Imported clips are preview-only here. Create a new clip to add keyframes.',true);return;}
+  const t=currentTime,frame=capturePose(t),idx=activeCustom.frames.findIndex(f=>Math.abs(f.time-t)<.0001);
+  if(idx>=0)activeCustom.frames[idx]=frame;else activeCustom.frames.push(frame);
+  activeCustom.frames.sort((a,b)=>a.time-b.time);const data=activeCustom,saved=t;selectAnimation(data,'custom');scrub(saved);renderKeyframes(data);status(`Keyframe added at ${saved.toFixed(2)}s.`);
+}
+
+function exportSetup(){
+  if(!modelRoot)return;
+  const data={app:'FORM Character Studio',version:'0.1',model:modelRoot.name,attachments:attachments.map(a=>({id:a.userData.id,label:a.userData.label,parent:a.parent?.isBone?{type:'bone',name:a.parent.name}:{type:'root'},position:a.position.toArray(),quaternion:a.quaternion.toArray(),scale:a.scale.toArray()})),customAnimations};
+  download(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),`${safe(modelRoot.name)}.form-setup.json`);status('Setup JSON exported.');
+}
+async function exportGLB(){
+  if(!modelRoot)return;const button=$('exportBtn');button.disabled=true;button.textContent='Exporting…';status('Preparing GLB export…');
+  const oldSk=skeletonHelper?.visible,oldMk=markerGroup?.visible,oldHelpers=attachments.map(a=>[a.editorHelper,a.editorHelper?.visible]);
+  if(skeletonHelper)skeletonHelper.visible=false;if(markerGroup)markerGroup.visible=false;attachments.forEach(a=>{if(a.editorHelper)a.editorHelper.visible=false;});gizmo.detach();
+  try{
+    const exporter=new GLTFExporter(),clips=[...sourceAnimations,...customAnimations.map(makeClip)];
+    const picked=Number($('textureSize')?.value||2048),size=picked===0?Infinity:picked;
+    const result=await exporter.parseAsync(modelRoot,{binary:true,onlyVisible:true,trs:true,animations:clips,maxTextureSize:size});
+    download(new Blob([result],{type:'model/gltf-binary'}),`${safe(modelRoot.name)}.glb`);
+    status(`GLB exported · ${fmtBytes(result.byteLength)} · ${clips.length} clips · ${attachments.length} attachments`);
+  }catch(err){console.error(err);status(`Export failed: ${err.message||err}`,true);}
+  finally{
+    if(skeletonHelper)skeletonHelper.visible=oldSk;if(markerGroup)markerGroup.visible=oldMk;
+    oldHelpers.forEach(([h,v])=>{if(h)h.visible=v;});
+    if(selectedAttachment)gizmo.attach(selectedAttachment);else if(selectedBone)gizmo.attach(selectedBone);
+    button.disabled=false;button.textContent='Export GLB ↗';
+  }
+}
+function handleViewportPointer(e){
+  if(!modelRoot||gizmo.dragging||gizmo.axis!==null)return;
+  const rect=canvas.getBoundingClientRect();pointer.x=((e.clientX-rect.left)/rect.width)*2-1;pointer.y=-((e.clientY-rect.top)/rect.height)*2+1;raycaster.setFromCamera(pointer,camera);
+  if(markerGroup?.visible){const hit=raycaster.intersectObjects(boneMarkers,false)[0];if(hit)selectBone(hit.object.userData.bone);}
+}
+function resize(){
+  const w=wrap.clientWidth,h=wrap.clientHeight;if(!w||!h)return;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h,false);
+}
+function animate(){
+  requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.05);
+  if(isPlaying&&mixer&&activeAction){
+    mixer.update(dt);currentTime=activeAction.time;
+    if($('loopToggle').checked)currentTime%=currentDuration;
+    else if(currentTime>=currentDuration){currentTime=currentDuration;stopPlayback();}
+    $('timeRange').value=currentTime;$('timeDisplay').textContent=fmtTime(currentTime);
+  }
+  if(skeletonHelper)skeletonHelper.update();if(modelRoot)updateMarkers();orbit.update();renderer.render(scene,camera);
+}
+
+// UI and input wiring
+$('openBtn').onclick=()=>$('fileInput').click();$('emptyImport').onclick=()=>$('fileInput').click();
+$('fileInput').onchange=e=>{if(e.target.files.length)importFiles(e.target.files);e.target.value='';};
+$('exportBtn').onclick=exportGLB;$('saveSetupBtn').onclick=exportSetup;
+$('addAttachmentBtn').onclick=addAttachment;$('deleteAttachmentBtn').onclick=removeAttachment;
+$('newAnimationBtn').onclick=newAnimation;$('keyframeBtn').onclick=addKeyframe;
+$('playBtn').onclick=playPause;$('stopBtn').onclick=()=>{stopPlayback();scrub(0);};
+$('timeRange').oninput=e=>scrub(e.target.value);
+$('fpsSelect').onchange=()=>{$('timeRange').step=(1/Number($('fpsSelect').value)).toFixed(4);scrub(currentTime);};
+$('loopToggle').onchange=()=>{if(activeAction&&isPlaying)activeAction.setLoop($('loopToggle').checked?THREE.LoopRepeat:THREE.LoopOnce,$('loopToggle').checked?Infinity:1);};
+$('skeletonToggle').onchange=e=>toggleSkeleton(e.target.checked);$('boneToggle').onclick=()=>toggleSkeleton(!showSkeleton);
+$('frameBtn').onclick=frameModel;$('gridToggle').onclick=()=>{grid.visible=!grid.visible;$('gridToggle').classList.toggle('active',grid.visible);};
+$('spaceToggle').onclick=()=>{space=space==='local'?'world':'local';gizmo.setSpace(space);$('spaceToggle').textContent=space==='local'?'L':'W';};
+document.querySelectorAll('[data-transform]').forEach(b=>b.onclick=()=>{gizmo.setMode(b.dataset.transform);document.querySelectorAll('[data-transform]').forEach(x=>x.classList.toggle('active',x===b));});
+document.querySelectorAll('[data-side-tab]').forEach(b=>b.onclick=()=>sideTab(b.dataset.sideTab));
+$('leftToggle').onclick=()=>$('leftbar').classList.toggle('open');$('rightToggle').onclick=()=>$('rightbar').classList.toggle('open');
+canvas.addEventListener('pointerdown',handleViewportPointer);
+wrap.addEventListener('dragover',e=>{e.preventDefault();wrap.classList.add('dragover');});
+wrap.addEventListener('dragleave',()=>wrap.classList.remove('dragover'));
+wrap.addEventListener('drop',e=>{e.preventDefault();wrap.classList.remove('dragover');if(e.dataTransfer.files.length)importFiles(e.dataTransfer.files);});
+window.addEventListener('keydown',e=>{
+  if(['INPUT','SELECT','TEXTAREA'].includes(document.activeElement?.tagName))return;
+  if(e.key==='g'||e.key==='G')gizmo.setMode('translate');if(e.key==='r'||e.key==='R')gizmo.setMode('rotate');if(e.key==='s'||e.key==='S')gizmo.setMode('scale');
+  if(e.key===' '){e.preventDefault();playPause();}
+  if(e.key==='Escape'){gizmo.detach();selectedBone=null;selectedAttachment=null;renderInspector();renderTree();renderAttachments();}
+});
+window.addEventListener('resize',resize);new ResizeObserver(resize).observe(wrap);resize();animate();
+</script>
+</body></html>
