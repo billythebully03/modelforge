@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>ModelForge</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="tools">
+      <button id="btnLeft" class="mobile-only">Сцена</button>
+      <button id="btnOpen">Открыть</button>
+      <input id="fileInput" type="file" multiple hidden
+             accept=".glb,.gltf,.fbx,.obj,.mtl,.dae,.bin,.png,.jpg,.jpeg,.webp,.tga">
+      <button id="btnFrame">Кадр</button>
+      <button id="btnBones" class="on">Кости</button>
+    </div>
+    <div class="brand">ModelForge</div>
+    <div class="tools">
+      <button id="btnExportAtt">Экспорт блоков</button>
+      <button id="btnExportAnim">Экспорт анимации</button>
+      <button id="btnRight" class="mobile-only">Свойства</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="panel left">
+      <h3>Кости</h3>
+      <div id="outliner" class="list"></div>
+      <h3>Блоки</h3>
+      <div class="row"><button id="btnAddAtt">+ Блок</button></div>
+      <div id="attList" class="list"></div>
+    </aside>
+
+    <section id="viewport" class="viewport">
+      <div id="dropHint" class="drop-hint">Перетащи модель сюда<br>или нажми «Открыть».<br><span>glb · gltf · fbx · obj · dae</span></div>
+      <div class="zoom">
+        <button id="zIn" aria-label="Приблизить">+</button>
+        <button id="zOut" aria-label="Отдалить">−</button>
+      </div>
+    </section>
+
+    <aside class="panel right">
+      <h3>Свойства</h3>
+      <div id="inspector"></div>
+    </aside>
+  </main>
+
+  <footer class="timeline">
+    <div class="row">
+      <button id="btnPlay" class="transport" title="Пробел">▶</button>
+      <select id="clipSelect" aria-label="Клип"></select>
+      <input id="clipName" class="name" type="text" value="idle" spellcheck="false" aria-label="Имя клипа">
+      <label class="check"><input id="loopToggle" type="checkbox" checked> Loop</label>
+      <span id="timeLabel" class="muted"></span>
+    </div>
+    <input id="scrub" type="range" min="0" max="1" step="0.001" value="0" aria-label="Время">
+    <div class="row">
+      <button id="btnRecord">● Ключ</button>
+      <button id="btnDelKey">Удалить ключ</button>
+      <button id="btnClearClip" class="danger">Очистить клип</button>
+    </div>
+  </footer>
+
+  <div id="loading" class="loading" hidden>Загрузка…</div>
+  <div id="toast"></div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
